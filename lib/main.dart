@@ -1,31 +1,488 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-void main()=>runApp(const App());
-class R{final String id,name,cat,country,image,time,desc;final List<String> ing,steps;final bool featured;const R(this.id,this.name,this.cat,this.country,this.image,this.time,this.desc,this.ing,this.steps,{this.featured=false});}
-const rs=[
-R('1','চিকেন বিরিয়ানি','ভাত','বাংলাদেশ','https://images.unsplash.com/photo-1563379091339-03246963d96c?w=900','60 মিনিট','সুগন্ধি চাল ও মুরগির বিরিয়ানি',['চাল','মুরগি','পেঁয়াজ','আলু','দই'],['চাল আধা সেদ্ধ করুন।','মুরগি মসলা দিয়ে কষান।','চাল ও মাংস স্তরে দিন।','দমে রান্না করুন।'],featured:true),
-R('2','ইলিশ ভাজা','মাছ','বাংলাদেশ','https://images.unsplash.com/photo-1547592180-85f173990554?w=900','25 মিনিট','সহজ ইলিশ ভাজা',['ইলিশ','হলুদ','লবণ','তেল'],['মসলা মাখান।','দুই পাশ ভেজে নিন।']),
-R('3','বিফ ভুনা','মাংস','বাংলাদেশ','https://images.unsplash.com/photo-1601050690597-df0568f70950?w=900','75 মিনিট','ঝাল ঝাল বিফ ভুনা',['গরুর মাংস','পেঁয়াজ','আদা','রসুন'],['মাংস কষান।','ঢেকে রান্না করুন।','তেল ছেড়ে আসা পর্যন্ত ভুনুন।'],featured:true),
-R('4','ডাল ভর্তা','ভর্তা','বাংলাদেশ','https://images.unsplash.com/photo-1515003197210-e0cd71810b5f?w=900','20 মিনিট','ভাতের সঙ্গে দারুণ',['ডাল','পেঁয়াজ','কাঁচা মরিচ','সরিষার তেল'],['ডাল সেদ্ধ করুন।','সব উপকরণ মিশিয়ে ভর্তা করুন।']),
-R('5','চিকেন কারি','মাংস','ভারত','https://images.unsplash.com/photo-1603894584373-5ac82b2ae398?w=900','50 মিনিট','মশলাদার ভারতীয় কারি',['চিকেন','পেঁয়াজ','টমেটো','দই'],['পেঁয়াজ ভাজুন।','মসলা কষিয়ে চিকেন দিন।','ঢেকে রান্না করুন।']),
-R('6','চিকেন চাওমিন','নুডলস','চীন','https://images.unsplash.com/photo-1552611052-33e04de081de?w=900','25 মিনিট','দ্রুত চাইনিজ নুডলস',['নুডলস','চিকেন','সবজি','সয়া সস'],['নুডলস সেদ্ধ করুন।','সবজি ও চিকেন ভেজে মেশান।']),
-R('7','পাস্তা','পাস্তা','ইতালি','https://images.unsplash.com/photo-1551183053-bf91a1d81141?w=900','30 মিনিট','সহজ ইতালিয়ান পাস্তা',['পাস্তা','সস','চিজ'],['পাস্তা সেদ্ধ করুন।','সস ও চিজ দিয়ে মেশান।'])
+void main() => runApp(const App());
+
+class R {
+  final String id, name, cat, country, image, time, desc;
+  final List<String> ing, steps;
+  final bool featured;
+
+  const R(
+    this.id,
+    this.name,
+    this.cat,
+    this.country,
+    this.image,
+    this.time,
+    this.desc,
+    this.ing,
+    this.steps, {
+    this.featured = false,
+  });
+}
+
+const rs = [
+  R(
+    '1',
+    'চিকেন বিরিয়ানি',
+    'ভাত',
+    'বাংলাদেশ',
+    'https://images.unsplash.com/photo-1563379091339-03246963d96c?w=900',
+    '60 মিনিট',
+    'সুগন্ধি চাল ও মুরগির বিরিয়ানি',
+    ['চাল', 'মুরগি', 'পেঁয়াজ', 'আলু', 'দই'],
+    ['চাল আধা সেদ্ধ করুন।', 'মুরগি মসলা দিয়ে কষান।', 'চাল ও মাংস স্তরে দিন।', 'দমে রান্না করুন।'],
+    featured: true,
+  ),
+  R(
+    '2',
+    'ইলিশ ভাজা',
+    'মাছ',
+    'বাংলাদেশ',
+    'https://images.unsplash.com/photo-1547592180-85f173990554?w=900',
+    '25 মিনিট',
+    'সহজ ইলিশ ভাজা',
+    ['ইলিশ', 'হলুদ', 'লবণ', 'তেল'],
+    ['মসলা মাখান।', 'দুই পাশ ভেজে নিন।'],
+  ),
+  R(
+    '3',
+    'বিফ ভুনা',
+    'মাংস',
+    'বাংলাদেশ',
+    'https://images.unsplash.com/photo-1601050690597-df0568f70950?w=900',
+    '75 মিনিট',
+    'ঝাল ঝাল বিফ ভুনা',
+    ['গরুর মাংস', 'পেঁয়াজ', 'আদা', 'রসুন'],
+    ['মাংস কষান।', 'ঢেকে রান্না করুন।', 'তেল ছেড়ে আসা পর্যন্ত ভুনুন।'],
+    featured: true,
+  ),
+  R(
+    '4',
+    'ডাল ভর্তা',
+    'ভর্তা',
+    'বাংলাদেশ',
+    'https://images.unsplash.com/photo-1515003197210-e0cd71810b5f?w=900',
+    '20 মিনিট',
+    'ভাতের সঙ্গে দারুণ',
+    ['ডাল', 'পেঁয়াজ', 'কাঁচা মরিচ', 'সরিষার তেল'],
+    ['ডাল সেদ্ধ করুন।', 'সব উপকরণ মিশিয়ে ভর্তা করুন।'],
+  ),
+  R(
+    '5',
+    'চিকেন কারি',
+    'মাংস',
+    'ভারত',
+    'https://images.unsplash.com/photo-1603894584373-5ac82b2ae398?w=900',
+    '50 মিনিট',
+    'মশলাদার ভারতীয় কারি',
+    ['চিকেন', 'পেঁয়াজ', 'টমেটো', 'দই'],
+    ['পেঁয়াজ ভাজুন।', 'মসলা কষিয়ে চিকেন দিন।', 'ঢেকে রান্না করুন।'],
+  ),
+  R(
+    '6',
+    'চিকেন চাওমিন',
+    'নুডলস',
+    'চীন',
+    'https://images.unsplash.com/photo-1552611052-33e04de081de?w=900',
+    '25 মিনিট',
+    'দ্রুত চাইনিজ নুডলস',
+    ['নুডলস', 'চিকেন', 'সবজি', 'সয়া সস'],
+    ['নুডলস সেদ্ধ করুন।', 'সবজি ও চিকেন ভেজে মেশান।'],
+  ),
+  R(
+    '7',
+    'পাস্তা',
+    'পাস্তা',
+    'ইতালি',
+    'https://images.unsplash.com/photo-1551183053-bf91a1d81141?w=900',
+    '30 মিনিট',
+    'সহজ ইতালিয়ান পাস্তা',
+    ['পাস্তা', 'সস', 'চিজ'],
+    ['পাস্তা সেদ্ধ করুন।', 'সস ও চিজ দিয়ে মেশান।'],
+  ),
 ];
 
-class App extends StatelessWidget{const App({super.key});Widget build(BuildContext c)=>MaterialApp(debugShowCheckedModeBanner:false,title:'আমার রেসিপি',theme:ThemeData(useMaterial3:true,colorSchemeSeed:Colors.deepOrange),home:const Home());}
-class Home extends StatefulWidget{const Home({super.key});State<Home> createState()=>_H();}
-class _H extends State<Home>{int tab=0;String q='';String cat='সব';Set<String> fav={};
-final cats=['সব','ভাত','মাছ','মাংস','ভর্তা','নুডলস','পাস্তা'];
-void initState(){super.initState();load();}
-Future<void> load()async{final p=await SharedPreferences.getInstance();setState(()=>fav=p.getStringList('fav')?.toSet()??{});}
-Future<void> toggle(String id)async{final p=await SharedPreferences.getInstance();setState(()=>fav.contains(id)?fav.remove(id):fav.add(id));await p.setStringList('fav',fav.toList());}
-List<R> get list=>rs.where((r)=>(cat=='সব'||r.cat==cat)&&(q.isEmpty||r.name.contains(q)||r.cat.contains(q)||r.country.contains(q))).toList();
-Widget build(BuildContext c){final pages=[home(),cats(),favorites(),const Center(child:Text('আমার প্রোফাইল',style:TextStyle(fontSize:25)))];return Scaffold(body:SafeArea(child:pages[tab]),bottomNavigationBar:NavigationBar(selectedIndex:tab,onDestinationSelected:(i)=>setState(()=>tab=i),destinations:const[NavigationDestination(icon:Icon(Icons.home_outlined),label:'হোম'),NavigationDestination(icon:Icon(Icons.category_outlined),label:'ক্যাটাগরি'),NavigationDestination(icon:Icon(Icons.favorite_border),label:'ফেভারিট'),NavigationDestination(icon:Icon(Icons.person_outline),label:'প্রোফাইল')]));}
-Widget home()=>ListView(padding:const EdgeInsets.all(16),children:[Text('আমার রেসিপি',style:Theme.of(context).textTheme.headlineMedium?.copyWith(fontWeight:FontWeight.bold)),const SizedBox(height:12),TextField(onChanged:(v)=>setState(()=>q=v),decoration:const InputDecoration(prefixIcon:Icon(Icons.search),hintText:'রেসিপি খুঁজুন...',filled:true,border:OutlineInputBorder(borderSide:BorderSide.none))),const SizedBox(height:18),const Text('জনপ্রিয়',style:TextStyle(fontSize:20,fontWeight:FontWeight.bold)),SizedBox(height:190,child:ListView(scrollDirection:Axis.horizontal,children:rs.where((r)=>r.featured).map(card).toList())),const SizedBox(height:18),const Text('সব রেসিপি',style:TextStyle(fontSize:20,fontWeight:FontWeight.bold)),GridView.count(shrinkWrap:true,physics:const NeverScrollableScrollPhysics(),crossAxisCount:2,crossAxisSpacing:10,mainAxisSpacing:10,childAspectRatio:.72,children:list.map(card).toList())]);
-Widget card(R r)=>SizedBox(width:210,child:Card(clipBehavior:Clip.antiAlias,child:InkWell(onTap:()=>details(r),child:Column(crossAxisAlignment:CrossAxisAlignment.start,children:[Expanded(child:Stack(children:[Positioned.fill(child:Image.network(r.image,fit:BoxFit.cover,errorBuilder:(_,__,___)=>const Icon(Icons.restaurant,size:50))),Positioned(right:2,top:2,child:IconButton(onPressed:()=>toggle(r.id),icon:Icon(fav.contains(r.id)?Icons.favorite:Icons.favorite_border,color:Colors.red)))])),Padding(padding:const EdgeInsets.all(8),child:Text(r.name,style:const TextStyle(fontWeight:FontWeight.bold))),Padding(padding:const EdgeInsets.fromLTRB(8,0,8,8),child:Text('${r.country} • ${r.time}'))]))));
-Widget cats()=>ListView(padding:const EdgeInsets.all(16),children:[const Text('ক্যাটাগরি',style:TextStyle(fontSize:28,fontWeight:FontWeight.bold)),...cats.map((x)=>ListTile(title:Text(x),leading:const Icon(Icons.restaurant),onTap:(){setState((){cat=x;tab=0;});}))]);
-Widget favorites()=>ListView(padding:const EdgeInsets.all(16),children:[const Text('ফেভারিট',style:TextStyle(fontSize:28,fontWeight:FontWeight.bold)),...rs.where((r)=>fav.contains(r.id)).map((r)=>ListTile(title:Text(r.name),subtitle:Text(r.cat),trailing:IconButton(icon:const Icon(Icons.favorite,color:Colors.red),onPressed:()=>toggle(r.id)),onTap:()=>details(r)))]);
-void details(R r)=>Navigator.push(context,MaterialPageRoute(builder:(_)=>D(r:r,f: fav.contains(r.id),on:()=>toggle(r.id))));
+class App extends StatelessWidget {
+  const App({super.key});
+
+  @override
+  Widget build(BuildContext c) {
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      title: 'আমার রেসিপি',
+      theme: ThemeData(
+        useMaterial3: true,
+        colorSchemeSeed: Colors.deepOrange,
+      ),
+      home: const Home(),
+    );
+  }
 }
-class D extends StatelessWidget{final R r;final bool f;final VoidCallback on;const D({super.key,required this.r,required this.f,required this.on});Widget build(BuildContext c)=>Scaffold(appBar:AppBar(title:Text(r.name),actions:[IconButton(onPressed:on,icon:Icon(f?Icons.favorite:Icons.favorite_border,color:Colors.red))]),body:ListView(children:[AspectRatio(aspectRatio:16/9,child:Image.network(r.image,fit:BoxFit.cover)),Padding(padding:const EdgeInsets.all(16),child:Column(crossAxisAlignment:CrossAxisAlignment.start,children:[Text(r.name,style:const TextStyle(fontSize:26,fontWeight:FontWeight.bold)),Text('${r.country} • ${r.cat} • ${r.time}'),const SizedBox(height:16),Text(r.desc),const SizedBox(height:18),const Text('উপকরণ',style:TextStyle(fontSize:20,fontWeight:FontWeight.bold)),...r.ing.map((x)=>Text('• $x',style:const TextStyle(fontSize:16))),const SizedBox(height:18),const Text('রান্নার নিয়ম',style:TextStyle(fontSize:20,fontWeight:FontWeight.bold)),...r.steps.asMap().entries.map((e)=>ListTile(leading:CircleAvatar(child:Text('${e.key+1}')),title:Text(e.value)))]) )]));}
+
+class Home extends StatefulWidget {
+  const Home({super.key});
+
+  @override
+  State<Home> createState() => _H();
+}
+
+class _H extends State<Home> {
+  int tab = 0;
+  String q = '';
+  String cat = 'সব';
+  Set<String> fav = {};
+
+  final List<String> categories = const [
+    'সব',
+    'ভাত',
+    'মাছ',
+    'মাংস',
+    'ভর্তা',
+    'নুডলস',
+    'পাস্তা',
+  ];
+
+  @override
+  void initState() {
+    super.initState();
+    load();
+  }
+
+  Future<void> load() async {
+    final p = await SharedPreferences.getInstance();
+    if (!mounted) return;
+    setState(() {
+      fav = p.getStringList('fav')?.toSet() ?? <String>{};
+    });
+  }
+
+  Future<void> toggle(String id) async {
+    final p = await SharedPreferences.getInstance();
+
+    setState(() {
+      if (fav.contains(id)) {
+        fav.remove(id);
+      } else {
+        fav.add(id);
+      }
+    });
+
+    await p.setStringList('fav', fav.toList());
+  }
+
+  List<R> get list {
+    return rs
+        .where(
+          (r) =>
+              (cat == 'সব' || r.cat == cat) &&
+              (q.isEmpty ||
+                  r.name.contains(q) ||
+                  r.cat.contains(q) ||
+                  r.country.contains(q)),
+        )
+        .toList();
+  }
+
+  @override
+  Widget build(BuildContext c) {
+    final pages = [
+      home(),
+      categoriesPage(),
+      favorites(),
+      const Center(
+        child: Text(
+          'আমার প্রোফাইল',
+          style: TextStyle(fontSize: 25),
+        ),
+      ),
+    ];
+
+    return Scaffold(
+      body: SafeArea(child: pages[tab]),
+      bottomNavigationBar: NavigationBar(
+        selectedIndex: tab,
+        onDestinationSelected: (i) => setState(() => tab = i),
+        destinations: const [
+          NavigationDestination(
+            icon: Icon(Icons.home_outlined),
+            label: 'হোম',
+          ),
+          NavigationDestination(
+            icon: Icon(Icons.category_outlined),
+            label: 'ক্যাটাগরি',
+          ),
+          NavigationDestination(
+            icon: Icon(Icons.favorite_border),
+            label: 'ফেভারিট',
+          ),
+          NavigationDestination(
+            icon: Icon(Icons.person_outline),
+            label: 'প্রোফাইল',
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget home() {
+    return ListView(
+      padding: const EdgeInsets.all(16),
+      children: [
+        Text(
+          'আমার রেসিপি',
+          style: Theme.of(context)
+              .textTheme
+              .headlineMedium
+              ?.copyWith(fontWeight: FontWeight.bold),
+        ),
+        const SizedBox(height: 12),
+        TextField(
+          onChanged: (v) => setState(() => q = v),
+          decoration: const InputDecoration(
+            prefixIcon: Icon(Icons.search),
+            hintText: 'রেসিপি খুঁজুন...',
+            filled: true,
+            border: OutlineInputBorder(
+              borderSide: BorderSide.none,
+            ),
+          ),
+        ),
+        const SizedBox(height: 18),
+        const Text(
+          'জনপ্রিয়',
+          style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+        ),
+        const SizedBox(height: 8),
+        SizedBox(
+          height: 190,
+          child: ListView(
+            scrollDirection: Axis.horizontal,
+            children: rs.where((r) => r.featured).map(card).toList(),
+          ),
+        ),
+        const SizedBox(height: 18),
+        const Text(
+          'সব রেসিপি',
+          style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+        ),
+        const SizedBox(height: 8),
+        GridView.count(
+          shrinkWrap: true,
+          physics: const NeverScrollableScrollPhysics(),
+          crossAxisCount: 2,
+          crossAxisSpacing: 10,
+          mainAxisSpacing: 10,
+          childAspectRatio: 0.72,
+          children: list.map(card).toList(),
+        ),
+      ],
+    );
+  }
+
+  Widget card(R r) {
+    return SizedBox(
+      width: 210,
+      child: Card(
+        clipBehavior: Clip.antiAlias,
+        child: InkWell(
+          onTap: () => details(r),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Expanded(
+                child: Stack(
+                  children: [
+                    Positioned.fill(
+                      child: Image.network(
+                        r.image,
+                        fit: BoxFit.cover,
+                        errorBuilder: (_, __, ___) => const Center(
+                          child: Icon(Icons.restaurant, size: 50),
+                        ),
+                      ),
+                    ),
+                    Positioned(
+                      right: 2,
+                      top: 2,
+                      child: IconButton(
+                        onPressed: () => toggle(r.id),
+                        icon: Icon(
+                          fav.contains(r.id)
+                              ? Icons.favorite
+                              : Icons.favorite_border,
+                          color: Colors.red,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(8),
+                child: Text(
+                  r.name,
+                  style: const TextStyle(fontWeight: FontWeight.bold),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.fromLTRB(8, 0, 8, 8),
+                child: Text('${r.country} • ${r.time}'),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget categoriesPage() {
+    return ListView(
+      padding: const EdgeInsets.all(16),
+      children: [
+        const Text(
+          'ক্যাটাগরি',
+          style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
+        ),
+        ...categories.map(
+          (x) => ListTile(
+            title: Text(x),
+            leading: const Icon(Icons.restaurant),
+            onTap: () {
+              setState(() {
+                cat = x;
+                tab = 0;
+              });
+            },
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget favorites() {
+    return ListView(
+      padding: const EdgeInsets.all(16),
+      children: [
+        const Text(
+          'ফেভারিট',
+          style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
+        ),
+        ...rs
+            .where((r) => fav.contains(r.id))
+            .map(
+              (r) => ListTile(
+                title: Text(r.name),
+                subtitle: Text(r.cat),
+                trailing: IconButton(
+                  icon: const Icon(Icons.favorite, color: Colors.red),
+                  onPressed: () => toggle(r.id),
+                ),
+                onTap: () => details(r),
+              ),
+            ),
+      ],
+    );
+  }
+
+  void details(R r) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (_) => D(
+          r: r,
+          f: fav.contains(r.id),
+          on: () => toggle(r.id),
+        ),
+      ),
+    );
+  }
+}
+
+class D extends StatelessWidget {
+  final R r;
+  final bool f;
+  final VoidCallback on;
+
+  const D({
+    super.key,
+    required this.r,
+    required this.f,
+    required this.on,
+  });
+
+  @override
+  Widget build(BuildContext c) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(r.name),
+        actions: [
+          IconButton(
+            onPressed: on,
+            icon: Icon(
+              f ? Icons.favorite : Icons.favorite_border,
+              color: Colors.red,
+            ),
+          ),
+        ],
+      ),
+      body: ListView(
+        children: [
+          AspectRatio(
+            aspectRatio: 16 / 9,
+            child: Image.network(r.image, fit: BoxFit.cover),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(16),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  r.name,
+                  style: const TextStyle(
+                    fontSize: 26,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                Text('${r.country} • ${r.cat} • ${r.time}'),
+                const SizedBox(height: 16),
+                Text(r.desc),
+                const SizedBox(height: 18),
+                const Text(
+                  'উপকরণ',
+                  style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                ...r.ing.map(
+                  (x) => Text(
+                    '• $x',
+                    style: const TextStyle(fontSize: 16),
+                  ),
+                ),
+                const SizedBox(height: 18),
+                const Text(
+                  'রান্নার নিয়ম',
+                  style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                ...r.steps.asMap().entries.map(
+                  (e) => ListTile(
+                    leading: CircleAvatar(
+                      child: Text('${e.key + 1}'),
+                    ),
+                    title: Text(e.value),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
