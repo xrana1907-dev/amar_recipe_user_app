@@ -1,0 +1,31 @@
+name: rannaghor_app
+description: রান্নাঘর - বাংলা ও বিশ্বের রেসিপি অ্যাপ
+publish_to: 'none'
+version: 3.1.0+1
+
+environment:
+  sdk: '>=3.0.0 <4.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+  cupertino_icons: ^1.0.8
+  shared_preferences: ^2.3.2
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_launcher_icons: ^0.14.4
+
+flutter:
+  uses-material-design: true
+  assets:
+    - assets/rannaghor_logo.png
+
+flutter_launcher_icons:
+  android: true
+  ios: true
+  image_path: assets/rannaghor_logo.png
+  adaptive_icon_background: '#0B5D2A'
+  adaptive_icon_foreground: assets/rannaghor_logo.png
+  min_sdk_android: 21
